@@ -1,0 +1,37 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+[Aa]rtifacts/
+[Pp]ublish/
+
+# cdktf and terraform ignores
+.terraform
+cdktf.out
+cdktf.log
+*terraform.*.tfstate*
+
+# npm
+node_modules/
+
+# nuget
+packages/
+
+# Visual Studio
+.vs/
+.vscode/
+
+# User-specific files
+*.suo
+*.user
+
+# Rider
+.idea/**
+
+# nuke
+.nuke/temp/
+
+# ncrunch
+*.ncrunchproject
+*.ncrunchsolution
+*.cache
