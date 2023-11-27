@@ -2,30 +2,23 @@
 using BlazorNet8.Api.Repositories;
 
 namespace BlazorNet8.Api.Features;
-public class UpdateTodo
+public class UpdateTodo(ITodoRepository repository)
 {
-    private readonly ITodoRepository _repository;
+    public record Command(int Id, string Name, string? Description);
 
-    public record Command(int Id, string Name, string? Desctiption);
-
-    public UpdateTodo(ITodoRepository repository)
+    public async Task<Result<TodoSuccessData>> Handle(Command command)
     {
-        _repository = repository;
-    }
-
-    public async Task<Result> Handle(Command command)
-    {
-        var entity = await _repository.GetTodoById(command.Id);
+        var entity = await repository.GetTodoById(command.Id);
 
         if (entity == null)
         {
-            return Result.Failure(TodoErrors.TodoDoesNotExist);
+            return Result<TodoSuccessData>.Failure(TodoResults.TodoDoesNotExist);
         }
 
-        entity.UpdateTodo(command.Name, command.Desctiption);
+        entity.UpdateTodo(command.Name, command.Description);
 
-        await _repository.UpdateTodo(entity);
+        await repository.UpdateTodo(entity);
 
-        return Result.Success();
+        return Result<TodoSuccessData>.Success(TodoResults.TodoUpdatedSuccessfully());
     }
 }

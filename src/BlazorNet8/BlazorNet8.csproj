@@ -7,9 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.0.0" />
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Emoji" Version="4.0.0" />
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.0.0" />
     <ProjectReference Include="..\BlazorNet8.Client\BlazorNet8.Client.csproj" />
     <ProjectReference Include="..\BlazorNet8.Core\BlazorNet8.Core.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Components\Shared\" />
   </ItemGroup>
 
 </Project>

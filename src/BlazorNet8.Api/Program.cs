@@ -9,6 +9,8 @@ builder.Services.AddDbContext<BlazorNetContext>(options =>
     options.UseInMemoryDatabase("InMem");
 });
 
+builder.Services.AddCors();
+
 builder.Services.AddFeatures();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -21,6 +23,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(options =>
+{
+    options.AllowAnyOrigin();
+    options.AllowAnyHeader();
+    options.AllowAnyMethod();
+});
 
 app.UseHttpsRedirection();
 

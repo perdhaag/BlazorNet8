@@ -4,7 +4,12 @@ namespace BlazorNet8.Api.Endpoints;
 
 public class PutTodo
 {
-    public static async Task<IResult> Execute(int id, string name, string? description, UpdateTodo updateTodo)
+    public static async Task<IResult> Execute(
+        int id, 
+        string name, 
+        string? description, 
+        UpdateTodo updateTodo
+    )
     {
         var result = await updateTodo
             .Handle(new UpdateTodo.Command(

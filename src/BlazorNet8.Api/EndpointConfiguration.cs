@@ -14,6 +14,6 @@ public static class EndpointConfiguration
         app.MapPost("/todo", PostTodo.Execute);
         app.MapGet("/todo", GetTodos.Execute);
         app.MapPut("/todo/{id}", PutTodo.Execute);
-        app.MapPost("/todo/{id}", CompleteTodo.Execute);
+        app.MapPost("/todo/{id}", PostTodoIsCompleted.Execute);
     }
 }

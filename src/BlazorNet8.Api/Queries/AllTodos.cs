@@ -1,4 +1,5 @@
 ﻿using BlazorNet8.Api.Domain;
+using BlazorNet8.Api.Domain.Abstractions;
 using BlazorNet8.Api.Infrastructure;
 using BlazorNet8.Api.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -14,19 +15,21 @@ public class AllTodos
         _dbContext = dbContext;
     }
 
-    public async Task<IEnumerable<TodoDto>> Execute()
+    public async Task<Result<TodoSuccessData>> Execute()
     {
         var todos = await _dbContext.Todos.ToListAsync();
 
-        return todos.Select(x => new TodoDto
+        var result =  todos.Select(x => new TodoDto
         {
             Id = x.Id,
             Name = x.Name,
             Description = x.Description,
-            IsCompleted = x.Completed,
+            IsCompleted = x.IsCompleted,
             CreatedDate = x.CreatedDate,
             UpdatedDate = x.UpdatedDate
         });
+
+        return Result<TodoSuccessData>.Success(TodoResults.GetAllTodosSuccessfully(result));
     }
 }
 

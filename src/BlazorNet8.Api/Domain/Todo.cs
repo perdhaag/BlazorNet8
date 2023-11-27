@@ -4,37 +4,32 @@ public class Todo
 {
     public int Id { get; init; }
 
-    public string Name { get; private set; } = null!;
+    public string Name { get; private set; }
 
     public string? Description { get; private set; }
 
-    public bool Completed { get; private set; }
+    public bool IsCompleted { get; private set; }
 
     public DateTime CreatedDate { get; private set; }
 
     public DateTime UpdatedDate { get; private set; }
 
-    public Todo(string name, string description)
+    private Todo(string name, string? description)
     {
         Name = name;
         Description = description;
-        Completed = false;
+        IsCompleted = false;
         CreatedDate = DateTime.Now;
         UpdatedDate = DateTime.Now;
     }
+    public static Todo Create(string name, string? description)
+        => new(name, description);
 
-    public Todo UpdateTodo(string name, string? description)
+    public void UpdateTodo(string name, string? description, bool isCompleted = false)
     {
         Name = name;
         Description = description;
+        IsCompleted = isCompleted;
         UpdatedDate = DateTime.Now;
-        return this;
-    }
-
-    public Todo SetTodoToCompleted()
-    {
-        Completed = true;
-        UpdatedDate = DateTime.Now;
-        return this;
     }
 }

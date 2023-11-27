@@ -12,6 +12,6 @@ public static class ServiceCollectionExtensions
         services.AddScoped<CreateToto>();
         services.AddScoped<AllTodos>();
         services.AddScoped<UpdateTodo>();
-        services.AddScoped<SetTodoToCompleted>();
+        services.AddScoped<SetTodoIsCompleted>();
     }
 }

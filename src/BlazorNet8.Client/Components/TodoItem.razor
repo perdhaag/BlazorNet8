@@ -1,0 +1,71 @@
+@using BlazorNet8.Api.Repositories
+
+<span style="font-size: 1.40rem; margin-bottom: 10px;">@Title</span>
+@foreach (var todo in TodoList!.OrderByDescending(x => x.CreatedDate))
+{
+    <FluentCard Class="todo-item" Style="@GetTodoItemStyling(todo)" @onclick="@(async () => await SelectedItemChanged.InvokeAsync(SelectedItem?.Id == todo.Id ? null : todo))">
+        <div class="todo-item-info">
+            <div>
+                <span class="todo-item-name" Style="@(todo.IsCompleted ? "text-decoration: line-through;" : "")">@todo.Name</span>
+            </div>
+            <div>
+                <span>@todo.Description</span>
+            </div>
+        </div>
+        <div class="todo-item-info">
+            <FluentCheckbox Disabled="@todo.IsCompleted" Value="@todo.IsCompleted" ValueChanged="@(async () => await CompleteTodo(todo))" Label="Fullført" />
+            @if (todo.IsCompleted)
+            {
+                <span style="margin-top: 20px;">Fullført: @todo.UpdatedDate.ToString("yyyy-MM-dd")</span>
+            }
+        </div>
+    </FluentCard>
+}
+
+<style>
+    .todo-item{
+        display: flex;
+        justify-content: space-between;
+        min-height: 60px;
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    
+    .todo-item-info{
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .todo-item-name{
+        font-size: 1.25rem;
+    }
+</style>
+
+@code {
+    [Parameter]
+    public List<TodoDto>? TodoList { get; set; }
+
+    [Parameter]
+    public TodoDto? SelectedItem { get; set; }
+    
+    [Parameter]
+    public EventCallback<TodoDto> SelectedItemChanged { get; set; }
+    
+    [Parameter]
+    public string Title { get; set; } = null!;
+    
+    [Parameter]
+    public EventCallback<TodoDto> TodoCompletedClicked { get; set; }
+    public async Task CompleteTodo(TodoDto todo)
+    {
+        await TodoCompletedClicked.InvokeAsync(todo);
+    }
+
+    private string GetTodoItemStyling(TodoDto todo) => todo switch{
+        {Id: var id} and {IsCompleted: true} when id == SelectedItem?.Id => "background-color: lightgray; border: 1px solid red;", 
+        {Id: var id} and {IsCompleted: false} when id == SelectedItem?.Id => "border: 1px solid red;", 
+        {IsCompleted: true} => "background-color: lightgray;",
+        _ => ""
+    };
+}

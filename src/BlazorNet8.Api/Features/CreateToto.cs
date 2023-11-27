@@ -5,26 +5,19 @@ using BlazorNet8.Core.Dtos;
 
 namespace BlazorNet8.Api.Features;
 
-public class CreateToto
+public class CreateToto(ITodoRepository repository)
 {
-    private readonly ITodoRepository _repository;
-
-    public CreateToto(ITodoRepository repository)
+    public async Task<Result<TodoSuccessData>> Handle(TodoRequest todo)
     {
-        _repository = repository;
-    }
-
-    public async Task<Result> Handle(TodoRequest todo)
-    {
-        var entity = await _repository.GetTodoByName(todo.Name);
+        var entity = await repository.GetTodoByName(todo.Name);
 
         if (entity is not null)
         {
-            return Result.Failure(TodoErrors.TodoNameAlreadyExists);
+            return Result<TodoSuccessData>.Failure(TodoResults.TodoNameAlreadyExists);
         }
 
-        await _repository.AddTodo(new Todo(todo.Name, todo.Description));
+        var id = await repository.AddTodo(Todo.Create(todo.Name, todo.Description));
 
-        return Result.Success();
+        return Result<TodoSuccessData>.Success(TodoResults.TodoCreatedSuccessfully());
     }
 }

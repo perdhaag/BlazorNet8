@@ -1,0 +1,146 @@
+﻿@page "/todos"
+@using BlazorNet8.Core.Services
+@using BlazorNet8.Api.Repositories
+@using BlazorNet8.Core.Dtos
+@using BlazorNet8.Client.Components
+
+@rendermode InteractiveAuto
+
+@inject ITodoService TodoService
+
+<div class="todo-container">
+    <div class="todo-list">
+    <h2>Gjøremål</h2>
+        @if (_todoList is not null)
+        {
+            <div class="todo-list-toolbar">
+                <FluentButton
+                    Disabled="@(SelectedItem is null)"
+                    Appearance="Appearance.Outline"
+                    IconStart="@(new Icons.Regular.Size16.Edit())"
+                    OnClick="@SetTodoToEdit">
+                    Rediger
+                </FluentButton>
+                <FluentButton
+                    Disabled="@(SelectedItem is not null && IsEditingTodo)"
+                    Appearance="Appearance.Outline"
+                    IconStart="@(new Icons.Regular.Size16.Add())"
+                    OnClick="@(() => { IsEditingTodo = true; SelectedItem = null; })">
+                    Legg til
+                </FluentButton>
+            </div>
+            @if (IsEditingTodo)
+            {
+                <FluentCard Class="todo-add-item">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px; width: 100%;">
+                        <FluentTextField Style="width: 45%;" @bind-Value="@AddRequest!.Name" Appearance="FluentInputAppearance.Outline" Placeholder="Navn" />
+                        <FluentTextField Style="width: 45%;" @bind-Value="@AddRequest!.Description" Placeholder="Beskrivelse" Appearance="FluentInputAppearance.Outline" />
+                    </div>
+                    <div style="display: flex; justify-content: end; width: 100%;">
+                        @if (SelectedItem is not null)
+                        {
+                            <FluentButton Appearance="Appearance.Outline" IconStart="@(new Icons.Regular.Size24.DocumentSave())" OnClick="@(async () => await UpdateTodo())">Lagre</FluentButton>
+                        }
+                        else
+                        {
+                            <FluentButton Appearance="Appearance.Outline" IconStart="@(new Icons.Regular.Size24.DocumentSave())" OnClick="@(async () => await AddTodo())">Legg til</FluentButton>
+                        }
+                    </div>
+                </FluentCard>
+            }
+            <TodoItem
+                @rendermode="@InteractiveAuto"
+                @bind-SelectedItem="SelectedItem"
+                Title="Ikke-fullførte"
+                TodoList="_todoList.Where(x => !x.IsCompleted).ToList()"
+                TodoCompletedClicked="@(async todo => await CompleteTodo(todo))" />
+            <TodoItem
+                @rendermode="@InteractiveAuto"
+                @bind-SelectedItem="SelectedItem"
+                Title="Fullførte"
+                TodoList="_todoList.Where(x => x.IsCompleted).ToList()" />
+        }
+    </div>
+</div>
+
+<style>
+    .todo-container{
+        display: flex;
+        justify-content: center;
+        width: 90%;
+    }
+
+    .todo-list{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        width: 75%;
+    }
+   
+    .todo-add-item{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+        padding: 20px;
+        margin-bottom: 15px;
+    }
+    
+    .todo-list-toolbar{
+        display: flex;
+        justify-content: end;
+        gap: 15px;        
+        width: 100%;
+        margin-bottom: 15px;
+    }
+</style>
+
+@code {
+    private IEnumerable<TodoDto>? _todoList = new List<TodoDto>();
+
+    private TodoRequest AddRequest { get; set; } = new();
+    
+    private bool IsEditingTodo { get; set; }
+    
+    public TodoDto? SelectedItem { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        _todoList = await TodoService.GetTodos();
+    }
+
+    private async Task ResetViewAndUpdateTodoList()
+    {
+        IsEditingTodo = false;
+        SelectedItem = null;
+        AddRequest = new();
+        _todoList = await TodoService.GetTodos();
+        await InvokeAsync(StateHasChanged);
+    }
+    
+    public async Task CompleteTodo(TodoDto todo)
+    {
+        await TodoService.CompleteTodo(todo.Id);
+        await ResetViewAndUpdateTodoList();
+    }
+    private async Task AddTodo()
+    {
+        await TodoService.CreateTodoItem(new TodoRequest
+        {
+            Name = AddRequest!.Name,
+            Description = AddRequest!.Description
+        });
+        await ResetViewAndUpdateTodoList();
+    }
+    private void SetTodoToEdit()
+    {
+        AddRequest.Name = SelectedItem!.Name;
+        AddRequest.Description = SelectedItem.Description;
+        IsEditingTodo = true;
+    }
+
+    private async Task UpdateTodo()
+    {
+        await TodoService.UpdateTodo(SelectedItem!.Id, AddRequest.Name, AddRequest.Description);
+        await ResetViewAndUpdateTodoList();
+    }
+}

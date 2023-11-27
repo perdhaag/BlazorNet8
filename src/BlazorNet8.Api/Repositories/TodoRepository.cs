@@ -10,7 +10,7 @@ public interface ITodoRepository
 
     Task<Todo?> GetTodoByName(string name);
 
-    Task AddTodo(Todo todo);
+    Task<int> AddTodo(Todo todo);
 
     Task UpdateTodo(Todo todo);
 }
@@ -39,17 +39,18 @@ public class TodoRepository : ITodoRepository
         return entity;
     }
 
-    public async Task AddTodo(Todo todo)
+    public async Task<int> AddTodo(Todo todo)
     {
         var entity = _dbContext.Todos.Add(todo);
 
         await _dbContext.SaveChangesAsync();
+
+        return entity.Entity.Id;
     }
 
     public async Task UpdateTodo(Todo todo)
     {
-        _dbContext.Entry(todo).State = EntityState.Modified;
-
+        _dbContext.Todos.Update(todo);
         await _dbContext.SaveChangesAsync();
     }
 }

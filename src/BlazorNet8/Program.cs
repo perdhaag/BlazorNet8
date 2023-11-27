@@ -1,6 +1,8 @@
 using BlazorNet8;
 using BlazorNet8.Client.Pages;
 using BlazorNet8.Components;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +10,10 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
+builder.Services.TryAddScoped<IWebAssemblyHostEnvironment, ServerHostEnvironment>();
+
 builder.Services.AddHttpClients(builder.Configuration);
+builder.Services.AddUiComponents();
 
 var app = builder.Build();
 

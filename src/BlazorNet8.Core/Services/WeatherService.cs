@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using BlazorNet8.Services.Dtos;
 
-namespace BlazorNet8.Services;
+namespace BlazorNet8.Core.Services;
 
 public class WeatherService
 {

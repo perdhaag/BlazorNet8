@@ -1,10 +1,19 @@
-﻿using System.Text.Json;
+﻿using System.Net.Http.Json;
+using System.Text.Json;
 using BlazorNet8.Api.Repositories;
 using BlazorNet8.Core.Dtos;
 
-namespace BlazorNet8.Services;
+namespace BlazorNet8.Core.Services;
 
-public class TodoService
+public interface ITodoService
+{
+    Task<IEnumerable<TodoDto>?> GetTodos();
+    Task<bool> CreateTodoItem(TodoRequest request);
+    Task <bool> UpdateTodo(int id, string name, string? description);
+    Task<bool> CompleteTodo(int id);
+}
+
+public class TodoService : ITodoService
 {
     private readonly HttpClient _httpClient;
 
