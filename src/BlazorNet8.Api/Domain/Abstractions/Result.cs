@@ -2,6 +2,12 @@
 
 public class Result<T> where T : SuccessData<T>
 {
+    public bool IsSuccess { get; }
+    
+    public Error? Error { get; }
+   
+    public SuccessData<T>? SuccessData { get; set; }
+    
     private Result(bool isSuccess, Error error, SuccessData<T>? successData)
     {
         if ((isSuccess && error != Error.None) || (!isSuccess && error == Error.None))
@@ -11,11 +17,7 @@ public class Result<T> where T : SuccessData<T>
         Error = IsSuccess ? null : error;
         SuccessData = successData;
     }
-
-    public bool IsSuccess { get; }
-    public Error? Error { get; }
-    public SuccessData<T>? SuccessData { get; set; }
-
+    
     public static Result<T> Success(SuccessData<T> data)
     {
         return new Result<T>(true, Error.None, data);

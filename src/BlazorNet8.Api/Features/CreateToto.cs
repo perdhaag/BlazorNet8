@@ -16,7 +16,7 @@ public class CreateToto(ITodoRepository repository)
             return Result<TodoSuccessData>.Failure(TodoResults.TodoNameAlreadyExists);
         }
 
-        var id = await repository.AddTodo(Todo.Create(todo.Name, todo.Description));
+        await repository.AddTodo(Todo.Create(todo.Name, todo.Description));
 
         return Result<TodoSuccessData>.Success(TodoResults.TodoCreatedSuccessfully());
     }

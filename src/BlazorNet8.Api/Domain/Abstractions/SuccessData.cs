@@ -5,12 +5,6 @@ public interface ISuccessBaseData
     string Code { get; set; }
 }
 
-public record Property(string Name, string Value);
-
-public record Entity(string Name, IEnumerable<Property> Properties);
-
-public record AdditionalData(List<Entity> Entities);
-
 public class SuccessData<T> : ISuccessBaseData
 {
     public string Code { get; set; }

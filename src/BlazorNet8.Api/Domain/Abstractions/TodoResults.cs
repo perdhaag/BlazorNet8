@@ -1,4 +1,5 @@
 ﻿using BlazorNet8.Api.Repositories;
+using static BlazorNet8.Api.Domain.Abstractions.SuccessDataExtensions;
 
 namespace BlazorNet8.Api.Domain.Abstractions;
 
@@ -14,49 +15,26 @@ public static class TodoResults
 
     public static readonly Error TodoIsNotCompleted = new("TodoError.TodoIsNotCompleted", "Todo is not completed");
 
-    public static TodoSuccessData GetAllTodosSuccessfully(IEnumerable<TodoDto> todos)
-    {
-        var additionalProperties = SuccessData<TodoSuccessData>.AddAdditionalProperties(todos);
-        return TodoSuccessData.Success("Todo.GetAllTodosSuccessfully", additionalProperties);
-    }
-
+    public static TodoSuccessData GetAllTodosSuccessfully(IEnumerable<TodoDto> todos) =>
+        TodoSuccessData.Success(
+            "Todo.GetAllTodosSuccessfully", 
+            SuccessData<TodoSuccessData>.AddAdditionalProperties(todos)
+        );
+    
     public static TodoSuccessData TodoCreatedSuccessfully()
     {
-        var additionalProperties = new List<AdditionalData>
-        {
-            new(new List<Entity>
-            {
-                new("id",
-                    new List<Property> { new("isCompleted", false.ToString()) })
-
-            })
-        };
-        return TodoSuccessData.Success("Todo.TodoCreatedSuccessfully", additionalProperties);
+        return TodoSuccessData.Success("Todo.TodoCreatedSuccessfully", AddAdditionalProperties(false));
     }
 
     public static SuccessData<TodoSuccessData> TodoUpdatedSuccessfully()
     {
-        var additionalProperties = new List<AdditionalData>
-        {
-            new(new List<Entity>
-            {
-                new("id",
-                    new List<Property> { new("isCompleted", false.ToString()) })
-            })
-        };
-        return TodoSuccessData.Success("Todo.TodoUpdatedSuccessfully", additionalProperties);
+        return TodoSuccessData.Success("Todo.TodoUpdatedSuccessfully", AddAdditionalProperties(false));
     }
+
+
 
     public static SuccessData<TodoSuccessData> TodoSetToCompletedSuccessfully()
     {
-        var additionalProperties = new List<AdditionalData>
-        {
-            new(new List<Entity>
-            {
-                new("id",
-                    new List<Property> { new("isCompleted", true.ToString()) })
-            })
-        };
-        return TodoSuccessData.Success("Todo.TodoSetToCompletedSuccessfully", additionalProperties);
+        return TodoSuccessData.Success("Todo.TodoSetToCompletedSuccessfully", AddAdditionalProperties(true));
     }
 }
