@@ -28,3 +28,7 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+    - name: Publish
+      run: dotnet publish src/BlazorNet8/BlazorNet8.csproj -c Release -o release — nologo
+    - name: Publish
+      run: dotnet publish src/BlazorNet8.Api/BlazorNet8.Api.csproj -c Release -o release — nologo
