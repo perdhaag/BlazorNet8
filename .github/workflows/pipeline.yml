@@ -36,10 +36,12 @@ jobs:
       - name: Upload BlazorNet8
         uses: actions/upload-artifact@v3.1.3
         with:
+          name: BlazorNet8
           path: /home/runner/work/BlazorNet8/BlazorNet8/release/  
      
-      - name: Upload BlazorNet8
+      - name: Upload BlazorNet8.Api
         uses: actions/upload-artifact@v3.1.3
         with:
-          path: /home/runner/work/BlazorNet8/BlazorNet8/api/release/  
+          name: Upload BlazorNet8.Api
+          path: /home/runner/work/BlazorNet8/BlazorNet8/api/release/
 
