@@ -25,7 +25,9 @@ jobs:
         run: dotnet restore
 
       - name: Build
-        run: dotnet build --no-restore
+        uses: DotNetCoreCLI@2
+        with:
+          
 
       - name: Test
         run: dotnet test --no-build --verbosity normal
@@ -34,10 +36,15 @@ jobs:
         run: dotnet publish src/BlazorNet8/BlazorNet8.csproj -c Release -o release --nologo      
 
       - name: Publish BlazorNet8.Api
-        run: dotnet publish src/BlazorNet8.Api/BlazorNet8.Api.csproj -c Release -o release --nologo
+        run: dotnet publish src/BlazorNet8.Api/BlazorNet8.Api.csproj -c Release -o api/release --nologo
 
       - name: Upload BlazorNet8
         uses: actions/upload-artifact@v3.1.3
         with:
           path: /home/runner/work/BlazorNet8/BlazorNet8/release/  
+     
+      - name: Upload BlazorNet8
+        uses: actions/upload-artifact@v3.1.3
+        with:
+          path: /home/runner/work/BlazorNet8/BlazorNet8/api/release/  
 
