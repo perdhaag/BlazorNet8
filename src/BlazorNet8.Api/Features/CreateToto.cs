@@ -7,17 +7,17 @@ namespace BlazorNet8.Api.Features;
 
 public class CreateToto(ITodoRepository repository)
 {
-    public async Task<Result<TodoSuccessData>> Handle(TodoRequest todo)
+    public async Task<ResultData<TodoResultData>> Handle(TodoRequest todo)
     {
         var entity = await repository.GetTodoByName(todo.Name);
 
         if (entity is not null)
         {
-            return Result<TodoSuccessData>.Failure(TodoResults.TodoNameAlreadyExists);
+            return ResultData<TodoResultData>.Failure(TodoResults.TodoWithGivenNameAlreadyExists);
         }
 
-        await repository.AddTodo(Todo.Create(todo.Name, todo.Description));
-
-        return Result<TodoSuccessData>.Success(TodoResults.TodoCreatedSuccessfully());
+        var newEntity = Todo.Create(todo.Name, todo.Description);
+        await repository.AddTodo(newEntity);
+        return TodoResults.TodoCreatedSuccessfully(newEntity);
     }
 }

@@ -12,7 +12,7 @@ public class PutTodo
     )
     {
         var result = await updateTodo
-            .Handle(new UpdateTodo.Command(
+            .Handle(new UpdateTodo.UpdateTodoCommand(
                 id,
                 name,
                 description)

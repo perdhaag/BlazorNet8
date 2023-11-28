@@ -15,7 +15,7 @@ public class AllTodos
         _dbContext = dbContext;
     }
 
-    public async Task<Result<TodoSuccessData>> Execute()
+    public async Task<ResultData<TodoResultData>> Execute()
     {
         var todos = await _dbContext.Todos.ToListAsync();
 
@@ -29,7 +29,7 @@ public class AllTodos
             UpdatedDate = x.UpdatedDate
         });
 
-        return Result<TodoSuccessData>.Success(TodoResults.GetAllTodosSuccessfully(result));
+        return TodoResults.GetAllTodosSuccessfully(result);
     }
 }
 

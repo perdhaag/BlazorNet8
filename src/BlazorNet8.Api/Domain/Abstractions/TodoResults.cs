@@ -1,40 +1,26 @@
 ﻿using BlazorNet8.Api.Repositories;
-using static BlazorNet8.Api.Domain.Abstractions.SuccessDataExtensions;
+using static BlazorNet8.Api.Domain.Abstractions.ResultsExtensions;
 
 namespace BlazorNet8.Api.Domain.Abstractions;
 
 public static class TodoResults
 {
-    public static readonly Error TodoDoesNotExist = new("TodoError.TodoDoesNotExist", "Todo does not exist");
+    public static readonly Error TodoDoesNotExist = new(GetResultsType(), "Todo does not exist");
 
-    public static readonly Error TodoNameAlreadyExists = new("TodoError.TodoNameAlreadyExists", "Todo already exists");
-
-    public static readonly Error TodoAlreadyExist = new("TodoError.TodoAlreadyExist", "Todo already exists");
-
-    public static readonly Error TodoAlreadyCompleted = new("TodoError.TodoAlreadyCompleted", "Todo is already completed");
-
-    public static readonly Error TodoIsNotCompleted = new("TodoError.TodoIsNotCompleted", "Todo is not completed");
-
-    public static TodoSuccessData GetAllTodosSuccessfully(IEnumerable<TodoDto> todos) =>
-        TodoSuccessData.Success(
-            "Todo.GetAllTodosSuccessfully", 
-            SuccessData<TodoSuccessData>.AddAdditionalProperties(todos)
-        );
+    public static readonly Error TodoWithGivenNameAlreadyExists = new(GetResultsType(), "Todo already exists");
     
-    public static TodoSuccessData TodoCreatedSuccessfully()
-    {
-        return TodoSuccessData.Success("Todo.TodoCreatedSuccessfully", AddAdditionalProperties(false));
-    }
-
-    public static SuccessData<TodoSuccessData> TodoUpdatedSuccessfully()
-    {
-        return TodoSuccessData.Success("Todo.TodoUpdatedSuccessfully", AddAdditionalProperties(false));
-    }
-
-
-
-    public static SuccessData<TodoSuccessData> TodoSetToCompletedSuccessfully()
-    {
-        return TodoSuccessData.Success("Todo.TodoSetToCompletedSuccessfully", AddAdditionalProperties(true));
-    }
+    public static ResultData<TodoResultData> GetAllTodosSuccessfully(IEnumerable<TodoDto> todos) =>
+        TodoResultData.Success(GetResultsType(), todos);
+    
+    public static ResultData<TodoResultData> TodoCreatedSuccessfully(Todo todo) =>
+        TodoResultData.Success(GetResultsType(), todo);
+    
+    public static ResultData<TodoResultData> TodoUpdatedSuccessfully(Todo todo) =>
+        TodoResultData.Success(GetResultsType(), todo);
+    
+    public static ResultData<TodoResultData> TodoSetToCompletedSuccessfully(Todo todo) =>
+         TodoResultData.Success(GetResultsType(), todo);
+    
+    public static ResultData<TodoResultData> TodoSetToNotCompletedSuccessfully(Todo todo) =>
+        TodoResultData.Success(GetResultsType(), todo);
 }

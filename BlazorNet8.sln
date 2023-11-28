@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorNet8.Api", "src\Blazo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorNet8.Core", "src\BlazorNet8.Core\BlazorNet8.Core.csproj", "{3E044687-3FEE-4EB5-9B94-6EC1CF9D9664}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_tests", "_tests", "{30A067A3-DF82-46EA-879B-9EA4ADC7B73E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorNet8.Api.Tests", "src\BlazorNet8.Api.Tests\BlazorNet8.Api.Tests.csproj", "{5063D7CB-A921-4F6C-B496-C1BCE7B7D4ED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,11 +37,18 @@ Global
 		{3E044687-3FEE-4EB5-9B94-6EC1CF9D9664}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E044687-3FEE-4EB5-9B94-6EC1CF9D9664}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E044687-3FEE-4EB5-9B94-6EC1CF9D9664}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5063D7CB-A921-4F6C-B496-C1BCE7B7D4ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5063D7CB-A921-4F6C-B496-C1BCE7B7D4ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5063D7CB-A921-4F6C-B496-C1BCE7B7D4ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5063D7CB-A921-4F6C-B496-C1BCE7B7D4ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F2A4EEE9-5715-4124-BF41-DE1BEC755C8B}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5063D7CB-A921-4F6C-B496-C1BCE7B7D4ED} = {30A067A3-DF82-46EA-879B-9EA4ADC7B73E}
 	EndGlobalSection
 EndGlobal

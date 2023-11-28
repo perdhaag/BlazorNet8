@@ -4,13 +4,13 @@ using BlazorNet8.Api.Repositories;
 namespace BlazorNet8.Api.Features;
 public class SetTodoIsCompleted(ITodoRepository repository)
 {
-    public async Task<Result<TodoSuccessData>> Handle(int id)
+    public async Task<ResultData<TodoResultData>> Handle(int id)
     {
         var entity = await repository.GetTodoById(id);
         
         if (entity is null)
         {
-            return Result<TodoSuccessData>.Failure(TodoResults.TodoDoesNotExist);
+            return ResultData<TodoResultData>.Failure(TodoResults.TodoDoesNotExist);
         }
 
         if (entity.IsCompleted)
@@ -21,8 +21,8 @@ public class SetTodoIsCompleted(ITodoRepository repository)
         await repository.UpdateTodo(entity);
 
         return entity.IsCompleted
-            ? Result<TodoSuccessData>.Success(TodoResults.TodoSetToCompletedSuccessfully())
-            : Result<TodoSuccessData>.Success(TodoResults.TodoUpdatedSuccessfully());
+            ? TodoResults.TodoSetToCompletedSuccessfully(entity)
+            : TodoResults.TodoSetToNotCompletedSuccessfully(entity);
     }
 }
 

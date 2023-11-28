@@ -22,8 +22,7 @@ public class Todo
         CreatedDate = DateTime.Now;
         UpdatedDate = DateTime.Now;
     }
-    public static Todo Create(string name, string? description)
-        => new(name, description);
+    public static Todo Create(string name, string? description) => new(name, description);
 
     public void UpdateTodo(string name, string? description, bool isCompleted = false)
     {
