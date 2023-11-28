@@ -31,17 +31,12 @@ jobs:
         run: dotnet test --no-build --verbosity normal
 
       - name: Publish BlazorNet8
-        run: dotnet publish src/BlazorNet8/BlazorNet8.csproj -c Release -o release --nologo
-
-      - name: Upload BlazorNet8
-        uses: actions/upload-artifact@v3.1.3
-        with:
-          path: /home/runner/work/BlazorNet8/BlazorNet8/release/          
+        run: dotnet publish src/BlazorNet8/BlazorNet8.csproj -c Release -o release --nologo      
 
       - name: Publish BlazorNet8.Api
         run: dotnet publish src/BlazorNet8.Api/BlazorNet8.Api.csproj -c Release -o release --nologo
 
-      - name: Upload BlazorNet8.Api
+      - name: Upload BlazorNet8
         uses: actions/upload-artifact@v3.1.3
         with:
           path: /home/runner/work/BlazorNet8/BlazorNet8.Api/release/  
